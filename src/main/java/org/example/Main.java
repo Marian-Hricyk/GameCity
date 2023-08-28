@@ -65,7 +65,7 @@ public class Main {
             public void actionPerformed(ActionEvent e) {
                 Main.userCourse = Main.inputField.getText();
                 Main.inputField.setText("");
-                Main.computerСourse = "Місто від комп'ютера";
+                Main.computerСourse = "Місто від комп'ютера";//Вставиш значення від комп'ютера 
                 Main.coputerLable.setText("Комп'ютер: " + Main.computerСourse);
             }
         });
