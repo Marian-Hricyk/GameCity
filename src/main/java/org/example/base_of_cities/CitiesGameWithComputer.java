@@ -1,129 +1,102 @@
 package org.example.base_of_cities;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.HashSet;
-import java.util.Scanner;
 import java.util.Set;
 
-
-
 public class CitiesGameWithComputer {
-    public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-        Set<String> usedCities = new HashSet<>();
-        Set<String> citiesList = createCitiesList();
+    private Set<String> usedCities;
+    private Set<String> availableCities;
+    private String lastCity;
 
-        System.out.println("Давайте грати у гру Міста!");
+    public CitiesGameWithComputer() {
+        usedCities = new HashSet<>();
+        availableCities = createCitiesListFromFile("city_list.txt");
+        lastCity = "";
+    }
+
+    public void startGame() {
+        System.out.println("Давайте грати в гру Міста!");
         System.out.println("Введіть перше місто:");
+    }
 
-        String lastCity = scanner.nextLine().toLowerCase();
-        usedCities.add(lastCity);
+    public void setUserCourse(String userCity) {
+        userCity = userCity.toLowerCase();
 
-        while (true) {
-            String computerCity = getComputerCity(lastCity, usedCities, citiesList);
-            if (computerCity.isEmpty()) {
-                System.out.println("Комп'ютер не може знайти підходяще місто. Ви перемогли!");
-                break;
-            }
-            System.out.println("Комп'ютер вибрав: " + computerCity);
-
-            lastCity = computerCity;
-            usedCities.add(computerCity);
-
-            System.out.println("Введіть ваше місто:");
-            String userCity = scanner.nextLine().toLowerCase();
-
-            if (!citiesList.contains(userCity)) {
-                System.out.println("Такого міста немає у списку або некоректне найменування. Ви програли!");
-                break;
-            }
-
-            if (usedCities.contains(userCity)) {
-                System.out.println("Це місто вже було назване. Ви програли!");
-                break;
-            }
-
-            if (userCity.charAt(0) != lastCity.charAt(lastCity.length() - 1)) {
-                System.out.println("Місто повинно починатися на останню букву попереднього міста. Ви програли!");
-                break;
-            }
-
-            usedCities.add(userCity);
-            lastCity = userCity;
+        if (!availableCities.contains(userCity)) {
+            System.out.println("Такого міста немає у списку або некоректне найменування. Ви програли!");
+            return;
         }
+
+        if (usedCities.contains(userCity)) {
+            System.out.println("Це місто вже було назване. Ви програли!");
+            return;
+        }
+
+        if (!lastCity.isEmpty() && userCity.charAt(0) != lastCity.charAt(lastCity.length() - 1)) {
+            boolean validMove = false;
+            for (String city : availableCities) {
+                if (!usedCities.contains(city) && city.startsWith(String.valueOf(lastCity.charAt(lastCity.length() - 1)))) {
+                    validMove = true;
+                    break;
+                }
+            }
+
+            if (!validMove) {
+                for (String city : availableCities) {
+                    if (!usedCities.contains(city) && city.startsWith(String.valueOf(lastCity.charAt(lastCity.length() - 2)))) {
+                        validMove = true;
+                        break;
+                    }
+                }
+            }
+
+            if (!validMove) {
+                System.out.println("Місто, яке починається на останню букву або передостанню букву попереднього міста, не знайдено. Ви програли!");
+                return;
+            }
+        }
+
+        usedCities.add(userCity);
+        lastCity = userCity;
+        availableCities.remove(userCity);
     }
 
-    private static Set<String> createCitiesList() {
-        Set<String> citiesList = new HashSet<>();
-        citiesList.add("київ");
-        citiesList.add("львів");
-        citiesList.add("одеса");
-        citiesList.add("харків");
-        citiesList.add("дніпро");
-        citiesList.add("луцьк");
-        citiesList.add("запоріжжя");
-        citiesList.add("вінниця");
-        citiesList.add("рівне");
-        citiesList.add("полтава");
-        citiesList.add("чернівці");
-        citiesList.add("житомир");
-        citiesList.add("трускавець");
-        citiesList.add("кам'янець-подільський");
-        citiesList.add("мукачево");
-        citiesList.add("ужгород");
-        citiesList.add("миколаїв");
-        citiesList.add("суми");
-        citiesList.add("черкаси");
-        citiesList.add("кропивницький");
-        citiesList.add("маріуполь");
-        citiesList.add("севастополь");
-        citiesList.add("сімферополь");
-        citiesList.add("мелітополь");
-        citiesList.add("донецьк");
-        citiesList.add("славутич");
-        citiesList.add("чернігів");
-        citiesList.add("кіровоград");
-        citiesList.add("кременчук");
-        citiesList.add("червоноград");
-        citiesList.add("херсон");
-        citiesList.add("кривий ріг");
-        citiesList.add("бердянськ");
-        citiesList.add("павлоград");
-        citiesList.add("марганець");
-        citiesList.add("долина");
-        citiesList.add("кам'янка-бузька");
-        citiesList.add("борислав");
-        citiesList.add("хуст");
-        citiesList.add("радомишль");
-        citiesList.add("самбір");
-        citiesList.add("судова вишня");
+    public String getComputerCourse() {
+        char lastLetter = lastCity.charAt(lastCity.length() - 1);
+        char prevLastLetter = lastCity.length() > 1 ? lastCity.charAt(lastCity.length() - 2) : '\0';
 
-        return citiesList;
-    }
-
-    private static String getComputerCity(String lastCity, Set<String> usedCities, Set<String> citiesList) {
-        String lastLetter = lastCity.substring(lastCity.length() - 1);
-        String prevLastLetter = lastCity.length() > 1 ? lastCity.substring(lastCity.length() - 2, lastCity.length() - 1) : null;
-
-        for (String city : citiesList) {
-            if (!usedCities.contains(city) && city.startsWith(lastLetter)) {
+        for (String city : availableCities) {
+            if (!usedCities.contains(city) && city.charAt(0) == lastLetter) {
                 return city;
             }
         }
 
-        if (prevLastLetter != null) {
-            for (String city : citiesList) {
-                if (!usedCities.contains(city) && city.startsWith(prevLastLetter)) {
+        if (prevLastLetter != '\0') {
+            for (String city : availableCities) {
+                if (!usedCities.contains(city) && city.charAt(0) == prevLastLetter) {
                     return city;
                 }
             }
         }
 
-        for (String city : citiesList) {
-            if (!usedCities.contains(city)) {
-                return city; // Обираємо будь-яке не використане місто в якості останнього варіанту
+        return "";
+    }
+
+    private Set<String> createCitiesListFromFile(String filename) {
+        Set<String> citiesList = new HashSet<>();
+
+        try (BufferedReader reader = new BufferedReader(new FileReader(filename))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                citiesList.add(line.trim().toLowerCase());
             }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
 
-        return ""; // Якщо комп'ютер не може знайти підходяще місто, він проіграв.
+        return citiesList;
     }
 }
