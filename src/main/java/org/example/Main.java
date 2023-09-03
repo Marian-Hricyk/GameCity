@@ -6,7 +6,7 @@ public class Main {
 
 
     public static void main(String[] args) {
-
+        //перевірка на наявність бази(вона повина завантажитись лише раз)
         String fileName = "city_list.txt";
         File rootFolder = new File(System.getProperty("user.dir"));
         File fileToCheck = new File(rootFolder, fileName);
@@ -15,7 +15,7 @@ public class Main {
         } else {
             LoadingBase.LoadList();
         }
-//      завантажуємо ігровий інтерфейс
+        //завантажуємо ігровий інтерфейс
         InterfaceGame.welcomeMethods();
 
     }
