@@ -1,4 +1,4 @@
-package org.example.base_of_cities;
+package org.example;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
