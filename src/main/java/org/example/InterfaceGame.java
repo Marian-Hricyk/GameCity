@@ -8,6 +8,11 @@ public class InterfaceGame {
     private static JFrame welcomeFrame;
     private static JFrame gameFrame;
 
+    private static  JTextField inputField = new JTextField();
+    private static String info = "";
+
+    private static GameLogic citiesGame = new GameLogic();
+
     public static void welcomeMethods() {
         welcomeFrame = new JFrame("Вітаємо");
         welcomeFrame.setSize(400, 100);
@@ -61,7 +66,7 @@ public class InterfaceGame {
         goCourse.setAlignmentX(Component.CENTER_ALIGNMENT); // Вирівнювання по центру
         topPanel.add(goCourse);
 
-        JTextField inputField = new JTextField();
+
         inputField.setPreferredSize(new Dimension(100, 30));
         inputField.setHorizontalAlignment(JTextField.CENTER);
         inputField.setAlignmentX(Component.CENTER_ALIGNMENT); // Вирівнювання по центру
@@ -105,15 +110,24 @@ public class InterfaceGame {
         JPanel bottomPanel = new JPanel();
         bottomPanel.setLayout(new BoxLayout(bottomPanel, BoxLayout.Y_AXIS));
 
-        JTextField infoField = new JTextField("Комп'ютер: "); // Тут можна виводити інформацію
-        infoField.setFont(new Font("Arial", Font.PLAIN, 16));
-        infoField.setEditable(false); // Заборона редагування
-        infoField.setAlignmentX(Component.CENTER_ALIGNMENT); // Вирівнювання по центру
-        bottomPanel.add(infoField);
+        JTextField computerLabel = new JTextField("Комп'ютер: ");
+        computerLabel.setFont(new Font("Arial", Font.PLAIN, 16));
+        computerLabel.setEditable(false); // Заборона редагування
+        computerLabel.setAlignmentX(Component.CENTER_ALIGNMENT); // Вирівнювання по центру
+        bottomPanel.add(computerLabel);
 
-        JButton button = new JButton("Зробити хід!");
-        button.setAlignmentX(Component.CENTER_ALIGNMENT); // Вирівнювання по центру
-        bottomPanel.add(button);
+        JButton goButton = new JButton("Зробити хід!");
+        goButton.setAlignmentX(Component.CENTER_ALIGNMENT); // Вирівнювання по центру
+        bottomPanel.add(goButton);
+        goButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                citiesGame.setUserCourse(inputField.getText());
+                inputField.setText("");
+                info = citiesGame.getComputerCourse();
+                computerLabel.setText("Комп'ютер: " + info);
+            }
+        });
 
         gameFrame.add(bottomPanel, BorderLayout.SOUTH);
     }
