@@ -11,10 +11,9 @@ public class Main {
 
 
     public static void main(String[] args) {
-        LoadingBase loadingBase = new LoadingBase();
-        loadingBase.LoadList();
-        InterfaceGame.welcomMetods();
-        InterfaceGame.createGameFrame();
+
+        InterfaceGame.welcomeMethods();
+
     }
 
 }
