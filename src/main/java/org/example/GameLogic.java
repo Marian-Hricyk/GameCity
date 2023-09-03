@@ -9,6 +9,7 @@ import java.util.Set;
 public class GameLogic {
     private Set<String> usedCities;
     private Set<String> availableCities;
+    private String info = "";
     private String lastCity;
 
     public GameLogic() {
@@ -17,22 +18,17 @@ public class GameLogic {
         lastCity = "";
     }
 
-    public void startGame() {
-        System.out.println("Давайте грати в гру Міста!");
-        System.out.println("Введіть перше місто:");
-    }
-
     public void setUserCourse(String userCity) {
         userCity = userCity.toLowerCase();
 
         if (!availableCities.contains(userCity)) {
-            System.out.println("Такого міста немає у списку або некоректне найменування. Ви програли!");
-            return;
+            info = ("Такого міста немає у списку або некоректне найменування. Ви програли!");
+
         }
 
         if (usedCities.contains(userCity)) {
-            System.out.println("Це місто вже було назване. Ви програли!");
-            return;
+            info = ("Це місто вже було назване. Ви програли!");
+
         }
 
         if (!lastCity.isEmpty() && userCity.charAt(0) != lastCity.charAt(lastCity.length() - 1)) {
@@ -54,8 +50,8 @@ public class GameLogic {
             }
 
             if (!validMove) {
-                System.out.println("Місто, яке починається на останню букву або передостанню букву попереднього міста, не знайдено. Ви програли!");
-                return;
+                info = ("Місто, яке починається на останню букву або передостанню букву попереднього міста, не знайдено. Ви програли!");
+
             }
         }
 
@@ -82,7 +78,7 @@ public class GameLogic {
             }
         }
 
-        return "";
+        return info;
     }
 
     private Set<String> createCitiesListFromFile(String filename) {

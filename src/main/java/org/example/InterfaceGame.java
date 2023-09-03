@@ -110,10 +110,12 @@ public class InterfaceGame {
         JPanel bottomPanel = new JPanel();
         bottomPanel.setLayout(new BoxLayout(bottomPanel, BoxLayout.Y_AXIS));
 
-        JTextField computerLabel = new JTextField("Комп'ютер: ");
+        JTextArea computerLabel = new JTextArea("Комп'ютер: ");
         computerLabel.setFont(new Font("Arial", Font.PLAIN, 16));
-        computerLabel.setEditable(false); // Заборона редагування
-        computerLabel.setAlignmentX(Component.CENTER_ALIGNMENT); // Вирівнювання по центру
+        computerLabel.setEditable(false);
+        computerLabel.setWrapStyleWord(true); // Дозволяє переносити слова
+        computerLabel.setLineWrap(true); // Дозволяє переносити тексти на новий рядок
+        computerLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         bottomPanel.add(computerLabel);
 
         JButton goButton = new JButton("Зробити хід!");
