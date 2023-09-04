@@ -7,8 +7,8 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class GameLogic {
-    private Set<String> computersUsedCities = new HashSet<>();; // сюди мають записуватися обрані комп'ютером міста
-    private Set<String> gamersUsedList = new HashSet<>();; // сюди мають записуватися обрані гравцем міста
+    private Set<String> computersUsedCities = new HashSet<>(); // сюди мають записуватися обрані комп'ютером міста
+    private Set<String> gamersUsedList = new HashSet<>(); // сюди мають записуватися обрані гравцем міста
     private Set<String> usedCities = new HashSet<>();
     private Set<String> availableCities = createCitiesListFromFile("cities_list.txt");
     private String info = "";
