@@ -7,18 +7,13 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class GameLogic {
-    private Set<String> computersUsedCities;
-    private Set<String> gamersUsedList;
-    private Set<String> usedCities;
-    private Set<String> availableCities;
+    private Set<String> computersUsedCities = new HashSet<>();; // сюди мають записуватися обрані комп'ютером міста
+    private Set<String> gamersUsedList = new HashSet<>();; // сюди мають записуватися обрані гравцем міста
+    private Set<String> usedCities = new HashSet<>();
+    private Set<String> availableCities = createCitiesListFromFile("cities_list.txt");
     private String info = "";
-    private String lastCity;
+    private String lastCity = "";
 
-    public GameLogic() {
-        usedCities = new HashSet<>();
-        availableCities = createCitiesListFromFile("cities_list.txt");
-        lastCity = "";
-    }
 
     public void setUserCourse(String userCity) {
         userCity = userCity.toLowerCase();
@@ -82,7 +77,6 @@ public class GameLogic {
 
         return info;
     }
-
     private Set<String> createCitiesListFromFile(String filename) {
         Set<String> citiesList = new HashSet<>();
 
