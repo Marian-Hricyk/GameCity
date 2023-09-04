@@ -72,9 +72,10 @@ public class InterfaceGame {
         inputField.setAlignmentX(Component.CENTER_ALIGNMENT); // Вирівнювання по центру
         topPanel.add(inputField);
 
-        JLabel score = new JLabel("Гравець: " + 10 + "/ Комп'ютер: " + 10);
+        JTextArea score = new JTextArea("Гравець: " + 10 + "/ Комп'ютер: " + 10);
         score.setFont(new Font("Arial", Font.PLAIN, 16));
-        score.setAlignmentX(Component.CENTER_ALIGNMENT); // Вирівнювання по центру
+        score.setEditable(false);
+        score.setAlignmentX(JTextField.CENTER); // Вирівнювання по центру
         topPanel.add(score);
 
         gameFrame.add(topPanel, BorderLayout.NORTH);
@@ -84,7 +85,7 @@ public class InterfaceGame {
         JPanel leftPanel = new JPanel();
         leftPanel.setLayout(new BoxLayout(leftPanel, BoxLayout.Y_AXIS));
 
-        JTextArea wordListLeft = new JTextArea("Слово A\nСлово B\nСлово C\nСлово A\nСлово B\nСлово "); // Тут можна поповнювати список слів
+        JTextArea wordListLeft = new JTextArea("Слово A\nСлово B\nСлово C\nСловоjjjjjjjjjjjjjjjjjj A\nСлово B\nСлово "); // Тут можна поповнювати список слів
         wordListLeft.setFont(new Font("Arial", Font.PLAIN, 16));
         wordListLeft.setEditable(false); // Заборона редагування
         wordListLeft.setAlignmentX(Component.CENTER_ALIGNMENT); // Вирівнювання по центру
@@ -97,7 +98,7 @@ public class InterfaceGame {
         JPanel rightPanel = new JPanel();
         rightPanel.setLayout(new BoxLayout(rightPanel, BoxLayout.Y_AXIS));
 
-        JTextArea wordListRight = new JTextArea("Слово A\nСлово B\nСлово C\nСлово A\nСлово B\nСлово C"); // Тут можна поповнювати список слів
+        JTextArea wordListRight = new JTextArea("Слово A\nСлово B\nСловоjjjjjjjjjjjjjjjjjjjjj C\nСлово A\nСлово B\nСлово C"); // Тут можна поповнювати список слів
         wordListRight.setFont(new Font("Arial", Font.PLAIN, 16));
         wordListRight.setEditable(false); // Заборона редагування
         wordListRight.setAlignmentX(Component.CENTER_ALIGNMENT); // Вирівнювання по центру
