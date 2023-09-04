@@ -85,7 +85,7 @@ public class InterfaceGame {
         JPanel leftPanel = new JPanel();
         leftPanel.setLayout(new BoxLayout(leftPanel, BoxLayout.Y_AXIS));
 
-        JTextArea wordListLeft = new JTextArea("Слово A\nСлово B\nСлово C\nСловоjjjjjjjjjjjjjjjjjj A\nСлово B\nСлово "); // Тут можна поповнювати список слів
+        JTextArea wordListLeft = new JTextArea("s\ns\ns\n"); // Тут можна поповнювати список слів
         wordListLeft.setFont(new Font("Arial", Font.PLAIN, 16));
         wordListLeft.setEditable(false); // Заборона редагування
         wordListLeft.setAlignmentX(Component.CENTER_ALIGNMENT); // Вирівнювання по центру

@@ -7,6 +7,8 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class GameLogic {
+    private Set<String> computersUsedCities;
+    private Set<String> gamersUsedList;
     private Set<String> usedCities;
     private Set<String> availableCities;
     private String info = "";
@@ -14,7 +16,7 @@ public class GameLogic {
 
     public GameLogic() {
         usedCities = new HashSet<>();
-        availableCities = createCitiesListFromFile("city_list.txt");
+        availableCities = createCitiesListFromFile("cities_list.txt");
         lastCity = "";
     }
 
