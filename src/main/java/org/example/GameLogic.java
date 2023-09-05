@@ -5,8 +5,14 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
 
 public class GameLogic {
+
+    String cyrillicPattern = ".*[а-яА-Я].*"; // регулярний вираз для кирилиці
+    Pattern pattern = Pattern.compile(cyrillicPattern);
+
     private Set<String> computersUsedCities = new HashSet<>(); // сюди мають записуватися обрані комп'ютером міста
     private Set<String> gamersUsedList = new HashSet<>(); // сюди мають записуватися обрані гравцем міста
     private Set<String> usedCities = new HashSet<>();
@@ -14,54 +20,44 @@ public class GameLogic {
     private String info = "";
     private String lastCity = "";
 
+    private String counterG = "";
+    private String counterC = "";
 
     public void setUserCourse(String userCity) {
-        userCity = userCity.toLowerCase();
+        Matcher matcher = pattern.matcher(userCity);
+        if (matcher.matches()) {
+            //Виконується, коли текст містить кирилицю
+            userCity = userCity.toLowerCase();
 
-
-        if (!availableCities.contains(userCity)) {
-            info = ("Такого міста немає у списку або некоректне найменування. Ви програли!");
-
-        }
-
-        if (usedCities.contains(userCity)) {
-            info = ("Це місто вже було назване. Ви програли!");
-
-        }
-        if (!lastCity.isEmpty()) {
-            char lastLetter = lastCity.charAt(lastCity.length() - 1);
-            char firstLetter = userCity.charAt(0);
-            char beforethelastletter=lastCity.charAt(lastCity.length() - 2);
-
-            if (firstLetter != lastLetter||firstLetter!=beforethelastletter) {
-                info="Місто має починатися на букву '" + lastLetter +" або "+beforethelastletter+ "'. Ви програли!";
-            }
-        }
-
-        if (!lastCity.isEmpty() && userCity.charAt(0) != lastCity.charAt(lastCity.length() - 1)) {
-            boolean validMove = false;
-            for (String city : availableCities) {
-                if (!usedCities.contains(city) && city.startsWith(String.valueOf(lastCity.charAt(lastCity.length() - 1)))) {
-                    validMove = true;
-                    break;
+            if (!availableCities.contains(userCity)) {
+                if (usedCities.contains(userCity)){
+                    info = "Це місто вже було назване. Ви програли!";
+                }else{
+                    info = "Такого міста немає у списку. Ви програли!";
                 }
-            }
+            } else{
+                if (!lastCity.isEmpty()){
+                    char lastLetter = lastCity.charAt(lastCity.length() - 1); // остання літера минулого слова
+                    char firstLetter = userCity.charAt(0); // перша літера нового слова користувача
+                    if(firstLetter != lastLetter){
+                        if(lastLetter == 'ь'){
+                            //якщо останнє слово закінчується на букву з якої не починається жодне місто,
+                            // то поченаємо превіряти другу з кінця літеру
+                            char beforeTheLastLetter = lastCity.charAt(lastCity.length() - 2);
 
-            if (!validMove) {
-                for (String city : availableCities) {
-                    if (!usedCities.contains(city) && city.startsWith(String.valueOf(lastCity.charAt(lastCity.length() - 2)))) {
-                        validMove = true;
-                        break;
+                            if(firstLetter != beforeTheLastLetter){
+                                info = "Місто має починатися на букву '" + lastLetter + "'. Ви програли!";
+                            }
+                        }
                     }
                 }
             }
-
-            if (!validMove) {
-                info = ("Місто, яке починається на останню букву або передостанню букву попереднього міста, не знайдено. Ви програли!");
-
-            }
+        } else {
+            //Виконується, коли текст не містить кирилицю
+            info = "Слід використовувати тільки кирилицю.";
         }
 
+        gamersUsedList.add(userCity);
         usedCities.add(userCity);
         lastCity = userCity;
         availableCities.remove(userCity);
@@ -90,12 +86,14 @@ public class GameLogic {
 
         if (info.equals("")) {
             usedCities.add(computerCity); // Додаємо місто, яке вибрав комп'ютер, до usedCities
-            lastCity=computerCity;
+            computersUsedCities.add(computerCity);
+            lastCity = computerCity;
             return computerCity;
         } else {
             return info;
         }
     }
+
     private Set<String> createCitiesListFromFile(String filename) {
         Set<String> citiesList = new HashSet<>();
 
@@ -110,4 +108,6 @@ public class GameLogic {
 
         return citiesList;
     }
+
+
 }

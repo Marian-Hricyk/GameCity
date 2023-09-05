@@ -16,8 +16,8 @@ public class LoadingBase {
     private static String fileName = "cities_list.txt";
 
 
-    public static void LoadList(){
-        List<String> correctList = FilterOfList(CreateListOfCities(url));
+    public static void loadList(){
+        List<String> correctList = filterOfList(createListOfCities(url));
 
         try(BufferedWriter writer = new BufferedWriter(new FileWriter(fileName))){
             for(String cityName: correctList){
@@ -31,7 +31,7 @@ public class LoadingBase {
 
     }
 
-    private static List<String> FilterOfList(List<String> createdList){
+    private static List<String> filterOfList(List<String> createdList){
         List<String> correctList = new ArrayList<>();
         for(String element: createdList){
             if(element.charAt(0) != '['){
@@ -41,7 +41,7 @@ public class LoadingBase {
         return correctList;
     }
 
-    private static List<String> CreateListOfCities(String url){
+    private static List<String> createListOfCities(String url){
         List<String> cities = new ArrayList<>();
         try {
             Document doc = Jsoup.connect(url).get();

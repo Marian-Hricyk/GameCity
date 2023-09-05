@@ -13,7 +13,7 @@ public class Main {
         if (fileToCheck.exists()) {
             System.out.println("Файл cities_list.txt вже існує в кореневій папці.");
         } else {
-            LoadingBase.LoadList();
+            LoadingBase.loadList();
         }
         //завантажуємо ігровий інтерфейс
         InterfaceGame.welcomeMethods();
