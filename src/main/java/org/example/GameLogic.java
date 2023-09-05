@@ -10,7 +10,7 @@ import java.util.regex.Matcher;
 
 public class GameLogic {
 
-    String cyrillicPattern = ".*[а-яА-Я].*"; // регулярний вираз для кирилиці
+    String cyrillicPattern = ".*[а-яА-Я].*"; // регулярний вираз для перевірки кирилиці
     Pattern pattern = Pattern.compile(cyrillicPattern);
 
     private Set<String> computersUsedCities = new HashSet<>(); // сюди мають записуватися обрані комп'ютером міста
@@ -20,8 +20,8 @@ public class GameLogic {
     private String info = "";
     private String lastCity = "";
 
-    private String counterG = "";
-    private String counterC = "";
+//    private String counterG = "";
+//    private String counterC = "";
 
     public void setUserCourse(String userCity) {
         Matcher matcher = pattern.matcher(userCity);
@@ -30,22 +30,22 @@ public class GameLogic {
             userCity = userCity.toLowerCase();
 
             if (!availableCities.contains(userCity)) {
-                if (usedCities.contains(userCity)){
+                if (usedCities.contains(userCity)) {
                     info = "Це місто вже було назване. Ви програли!";
-                }else{
+                } else {
                     info = "Такого міста немає у списку. Ви програли!";
                 }
-            } else{
-                if (!lastCity.isEmpty()){
+            } else {
+                if (!lastCity.isEmpty()) {
                     char lastLetter = lastCity.charAt(lastCity.length() - 1); // остання літера минулого слова
                     char firstLetter = userCity.charAt(0); // перша літера нового слова користувача
-                    if(firstLetter != lastLetter){
-                        if(lastLetter == 'ь'){
+                    if (firstLetter != lastLetter) {
+                        if (lastLetter == 'ь') {
                             //якщо останнє слово закінчується на букву з якої не починається жодне місто,
                             // то поченаємо превіряти другу з кінця літеру
                             char beforeTheLastLetter = lastCity.charAt(lastCity.length() - 2);
 
-                            if(firstLetter != beforeTheLastLetter){
+                            if (firstLetter != beforeTheLastLetter) {
                                 info = "Місто має починатися на букву '" + lastLetter + "'. Ви програли!";
                             }
                         }
@@ -64,34 +64,32 @@ public class GameLogic {
     }
 
     public String getComputerCourse() {
-        char lastLetter = lastCity.charAt(lastCity.length() - 1);
-        char prevLastLetter = lastCity.length() > 1 ? lastCity.charAt(lastCity.length() - 2) : '\0';
-        String computerCity = null;
-        for (String city : availableCities) {
-            if (!usedCities.contains(city) && city.charAt(0) == lastLetter) {
-
-                computerCity = city;
-                break;
-            }
-        }
-
-        if (prevLastLetter != '\0') {
-            for (String city : availableCities) {
-                if (!usedCities.contains(city) && city.charAt(0) == prevLastLetter) {
-                    computerCity = city;
-                    break;
+        if (info.equals("")) {
+            char lastLetter = lastCity.charAt(lastCity.length() - 1); // остання літера останнього слова, введеного користувачем
+            String computerCity = "";
+            if (lastLetter != 'ь') {
+                for (String city : availableCities) {
+                    if (!usedCities.contains(city) && city.charAt(0) == lastLetter) {
+                        computerCity = city;
+                        break;
+                    }
+                }
+            } else {
+                char prevLastLetter = lastCity.charAt(lastCity.length() - 2);
+                for (String city : availableCities) {
+                    if (!usedCities.contains(city) && city.charAt(0) == prevLastLetter) {
+                        computerCity = city;
+                        break;
+                    }
                 }
             }
-        }
-
-        if (info.equals("")) {
-            usedCities.add(computerCity); // Додаємо місто, яке вибрав комп'ютер, до usedCities
             computersUsedCities.add(computerCity);
-            lastCity = computerCity;
             return computerCity;
+
         } else {
             return info;
         }
+
     }
 
     private Set<String> createCitiesListFromFile(String filename) {
