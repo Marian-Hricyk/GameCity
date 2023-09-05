@@ -5,7 +5,7 @@ import java.io.File;
 public class Main {
 
 
-    public static void main(String[] args) {
+    public static  void main(String[] args) {
         //перевірка на наявність бази(вона повина завантажитись лише раз)
         String fileName = "cities_list.txt";
         File rootFolder = new File(System.getProperty("user.dir"));

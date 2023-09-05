@@ -28,6 +28,15 @@ public class GameLogic {
             info = ("Це місто вже було назване. Ви програли!");
 
         }
+        if (!lastCity.isEmpty()) {
+            char lastLetter = lastCity.charAt(lastCity.length() - 1);
+            char firstLetter = userCity.charAt(0);
+            char beforethelastletter=lastCity.charAt(lastCity.length() - 2);
+
+            if (firstLetter != lastLetter||firstLetter!=beforethelastletter) {
+                info="Місто має починатися на букву '" + lastLetter +" або "+beforethelastletter+ "'. Ви програли!";
+            }
+        }
 
         if (!lastCity.isEmpty() && userCity.charAt(0) != lastCity.charAt(lastCity.length() - 1)) {
             boolean validMove = false;
@@ -81,6 +90,7 @@ public class GameLogic {
 
         if (info.equals("")) {
             usedCities.add(computerCity); // Додаємо місто, яке вибрав комп'ютер, до usedCities
+            lastCity=computerCity;
             return computerCity;
         } else {
             return info;
