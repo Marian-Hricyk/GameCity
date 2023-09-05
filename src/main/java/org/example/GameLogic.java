@@ -18,6 +18,7 @@ public class GameLogic {
     public void setUserCourse(String userCity) {
         userCity = userCity.toLowerCase();
 
+
         if (!availableCities.contains(userCity)) {
             info = ("Такого міста немає у списку або некоректне найменування. Ви програли!");
 
@@ -60,22 +61,30 @@ public class GameLogic {
     public String getComputerCourse() {
         char lastLetter = lastCity.charAt(lastCity.length() - 1);
         char prevLastLetter = lastCity.length() > 1 ? lastCity.charAt(lastCity.length() - 2) : '\0';
-
+        String computerCity = null;
         for (String city : availableCities) {
             if (!usedCities.contains(city) && city.charAt(0) == lastLetter) {
-                return city;
+
+                computerCity = city;
+                break;
             }
         }
 
         if (prevLastLetter != '\0') {
             for (String city : availableCities) {
                 if (!usedCities.contains(city) && city.charAt(0) == prevLastLetter) {
-                    return city;
+                    computerCity = city;
+                    break;
                 }
             }
         }
 
-        return info;
+        if (info.equals("")) {
+            usedCities.add(computerCity); // Додаємо місто, яке вибрав комп'ютер, до usedCities
+            return computerCity;
+        } else {
+            return info;
+        }
     }
     private Set<String> createCitiesListFromFile(String filename) {
         Set<String> citiesList = new HashSet<>();
