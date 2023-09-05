@@ -20,8 +20,8 @@ public class GameLogic {
     private String info = "";
     private String lastCity = "";
 
-//    private String counterG = "";
-//    private String counterC = "";
+    public int counterG = 0;
+    public int counterC = 0;
 
     public void setUserCourse(String userCity) {
         Matcher matcher = pattern.matcher(userCity);
@@ -58,6 +58,7 @@ public class GameLogic {
         }
 
         gamersUsedList.add(userCity);
+        counterG++;
         usedCities.add(userCity);
         lastCity = userCity;
         availableCities.remove(userCity);
@@ -84,6 +85,7 @@ public class GameLogic {
                 }
             }
             computersUsedCities.add(computerCity);
+            counterC++;
             return computerCity;
 
         } else {

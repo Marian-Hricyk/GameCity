@@ -72,7 +72,7 @@ public class InterfaceGame {
         inputField.setAlignmentX(Component.CENTER_ALIGNMENT); // Вирівнювання по центру
         topPanel.add(inputField);
 
-        JTextArea score = new JTextArea("Гравець: " + 10 + "/ Комп'ютер: " + 10);
+        JTextArea score = new JTextArea("Гравець: " + citiesGame.counterG + "/ Комп'ютер: " + citiesGame.counterC);
         score.setFont(new Font("Arial", Font.PLAIN, 16));
         score.setEditable(false);
         score.setAlignmentX(JTextField.CENTER); // Вирівнювання по центру
