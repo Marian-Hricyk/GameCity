@@ -82,16 +82,13 @@ public class GameLogic {
             }
             if (computerCity.equals("")) {
                 info = "Ви перемогли. Вітаю!";
-            } else {
+            }else{
+                availableCities.remove(computerCity);
                 usedCities.add(computerCity);
-                info = computerCity;
+                return computerCity;
             }
-            return info;
-
-        } else {
-            return info;
         }
-
+            return info;
     }
 
     private Set<String> createCitiesListFromFile(String filename) {
