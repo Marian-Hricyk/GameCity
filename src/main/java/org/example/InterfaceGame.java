@@ -8,7 +8,7 @@ public class InterfaceGame {
     private static JFrame welcomeFrame;
     private static JFrame gameFrame;
 
-    private static  JTextField inputField = new JTextField();
+    private static JTextField inputField = new JTextField();
     private static String info = "";
 
     private static GameLogic citiesGame = new GameLogic();
@@ -46,18 +46,18 @@ public class InterfaceGame {
         gameFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
         // Верхня панель з полем для вводу та рахунком
-        topPanel();
+        JPanel topPanel = topPanel();
         // Ліва панель зі списком слів гравця
         leftPanel();
         // Права панель зі списком слів комп'ютера
         rightPanel();
         // Нижня панель з полем для виводу інформації і кнопкою
-        bottomPanel();
+        bottomPanel(topPanel);
 
         location(gameFrame); // розположення вікна на екрані
     }
 
-    private static void topPanel(){
+    private static JPanel topPanel() {
         JPanel topPanel = new JPanel();
         topPanel.setLayout(new BoxLayout(topPanel, BoxLayout.Y_AXIS));
 
@@ -72,16 +72,22 @@ public class InterfaceGame {
         inputField.setAlignmentX(Component.CENTER_ALIGNMENT); // Вирівнювання по центру
         topPanel.add(inputField);
 
-        JTextArea score = new JTextArea("Гравець: " + citiesGame.counterG + "/ Комп'ютер: " + citiesGame.counterC);
-        score.setFont(new Font("Arial", Font.PLAIN, 16));
-        score.setEditable(false);
-        score.setAlignmentX(JTextField.CENTER); // Вирівнювання по центру
-        topPanel.add(score);
+        topPanel.add(getScore());
 
         gameFrame.add(topPanel, BorderLayout.NORTH);
+        return topPanel;
     }
 
-    private static void leftPanel(){
+    private static JTextArea getScore() {
+        JTextArea score = new JTextArea("Рахунок: " + citiesGame.counterG + "     ");
+        score.setFont(new Font("Arial", Font.PLAIN, 16));
+        score.setEditable(false);
+        score.setAlignmentX(JTextField.CENTER); // Вирівнювання по центру}
+
+        return score;
+    }
+
+    private static void leftPanel() {
         JPanel leftPanel = new JPanel();
         leftPanel.setLayout(new BoxLayout(leftPanel, BoxLayout.Y_AXIS));
 
@@ -107,7 +113,7 @@ public class InterfaceGame {
         gameFrame.add(rightPanel, BorderLayout.EAST);
     }
 
-    private static void bottomPanel(){
+    private static void bottomPanel(JPanel topPanel) {
         JPanel bottomPanel = new JPanel();
         bottomPanel.setLayout(new BoxLayout(bottomPanel, BoxLayout.Y_AXIS));
 
@@ -122,25 +128,34 @@ public class InterfaceGame {
         JButton goButton = new JButton("Зробити хід!");
         goButton.setAlignmentX(Component.CENTER_ALIGNMENT); // Вирівнювання по центру
         bottomPanel.add(goButton);
-        goButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                citiesGame.setUserCourse(inputField.getText());
-                inputField.setText("");
-                info = citiesGame.getComputerCourse();
-                computerLabel.setText("Комп'ютер: " + info);
-            }
+        goButton.addActionListener(e -> {
+
+            citiesGame.setUserCourse(inputField.getText());
+            inputField.setText("");
+            info = citiesGame.getComputerCourse();
+            computerLabel.setText("Комп'ютер: " + info);
+
+            updateTopPanel(topPanel);
+
         });
 
         gameFrame.add(bottomPanel, BorderLayout.SOUTH);
     }
-    private static void location(JFrame frame){
+
+    private static void location(JFrame frame) {
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         int x = (int) ((screenSize.getWidth() - frame.getWidth()) / 2);
         int y = (int) ((screenSize.getHeight() - frame.getHeight()) / 2);
         frame.setLocation(x, y);
 
         frame.setVisible(true);
+    }
+
+    private static void updateTopPanel(JPanel topPanel) {
+        topPanel.remove(2);
+        topPanel.add(getScore());
+        topPanel.revalidate();
+        topPanel.repaint();
     }
 
 }

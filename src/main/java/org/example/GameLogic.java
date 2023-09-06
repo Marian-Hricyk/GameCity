@@ -13,15 +13,12 @@ public class GameLogic {
     String cyrillicPattern = ".*[а-яА-Я].*"; // регулярний вираз для перевірки кирилиці
     Pattern pattern = Pattern.compile(cyrillicPattern);
 
-    private Set<String> computersUsedCities = new HashSet<>(); // сюди мають записуватися обрані комп'ютером міста
-    private Set<String> gamersUsedList = new HashSet<>(); // сюди мають записуватися обрані гравцем міста
     private Set<String> usedCities = new HashSet<>();
     private Set<String> availableCities = createCitiesListFromFile("cities_list.txt");
     private String info = "";
     private String lastCity = "";
 
     public int counterG = 0;
-    public int counterC = 0;
 
     public void setUserCourse(String userCity) {
         Matcher matcher = pattern.matcher(userCity);
@@ -57,7 +54,6 @@ public class GameLogic {
             info = "Слід використовувати тільки кирилицю.";
         }
 
-        gamersUsedList.add(userCity);
         counterG++;
         usedCities.add(userCity);
         lastCity = userCity;
@@ -84,9 +80,13 @@ public class GameLogic {
                     }
                 }
             }
-            computersUsedCities.add(computerCity);
-            counterC++;
-            return computerCity;
+            if (computerCity.equals("")) {
+                info = "Ви перемогли. Вітаю!";
+            } else {
+                usedCities.add(computerCity);
+                info = computerCity;
+            }
+            return info;
 
         } else {
             return info;
